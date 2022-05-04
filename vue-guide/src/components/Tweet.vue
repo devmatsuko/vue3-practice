@@ -11,6 +11,8 @@
   }
 
   const deleteTweet = (id: number) => {
+    // 受け取ったID以外の全てのtweetsをtweets.valueに代入する
+    // 実質、受け取ったIDのtweetを削除するのと同じ処理になる
     tweets.value = tweets.value.filter(t => t.id !== id)
   }
 </script>
@@ -23,10 +25,11 @@
       <button class="save-button" @click="postTweet()">post</button>
     </div>
     <div class="tweet-container">
-      <ul>
+      <p v-if="tweets.length <= 0"> No tweets have been added</p>
+      <ul v-else>
         <li v-for="tweet in tweets" :key="tweet.id" class="tweet-list">
           <span>{{ tweet.description }}</span>
-          <button class="delete-button">Delete</button>
+          <button class="delete-button" @click="deleteTweet(tweet.id)" >Delete</button>
         </li>
       </ul>
     </div>
