@@ -1,6 +1,23 @@
 <script setup lang="ts">
+import {ref} from 'vue'
 import Card from './Card.vue';
 import Badge from './Badge.vue';
+import MosaicReservation from './MosaicReservation.vue';
+import ReservationList from './ReservationList.vue';
+
+const isListVisible = ref<boolean>(true)
+
+const onClickButton = () => {
+  isListVisible.value = !isListVisible.value
+}
+
+const getContent = () => {
+  if(isListVisible.value) {
+    return ReservationList
+  }else{
+    return MosaicReservation
+  }
+}
 </script>
 
 <template>
@@ -16,25 +33,15 @@ import Badge from './Badge.vue';
         </Badge>
       </div>
     </Card>
+    <component :is="getContent()"></component>
+    <!-- <div v-if="isListVisible">
+      <ReservationList></ReservationList>
+    </div>
+    <div v-else>
+      <MosaicReservation></MosaicReservation>
+    </div> -->
 
-    <Card class="reservation-card">
-      <span>John Wick</span>
-      <Badge class="vip-badge">
-        <span>VIP</span>
-      </Badge>
-    </Card>
-    <Card class="reservation-card">
-      <span>Shuya Inada</span>
-      <Badge class="normal-badge">
-        <span>normal</span>
-      </Badge>
-    </Card>
-    <Card class="reservation-card">
-      <span>Silvers Leily</span>
-      <Badge class="vip-badge">
-        <span>VIP</span>
-      </Badge>
-    </Card>
+    <button @click="onClickButton">Change</button>
   </div>
 </template>
 
@@ -43,16 +50,6 @@ import Badge from './Badge.vue';
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.vip-badge {
-  background-color: #810036;
-  color: white;
-}
-
-.normal-badge {
-  background-color: #002c8a;
-  color: white;
 }
 
 .menu-card {
@@ -65,14 +62,6 @@ import Badge from './Badge.vue';
   margin-bottom: 24px;
 }
 
-.reservation-card {
-  width: 400px;
-  height: 60px;
-  background-color: rgb(255, 212, 147);
-  display: flex;
-  flex-direction: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
+
 
 </style>
